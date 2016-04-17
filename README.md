@@ -1,6 +1,6 @@
 # react-native-fence-html
 
-A react native component that renders HTML as native views. Incredibly useful for rendering using inputted text from wysiwyg editors
+A react native component that renders HTML as native views. Incredibly useful for rendering user inputted text from wysiwyg editors
 
 ![Screenshot](https://raw.githubusercontent.com/Thomas101/react-native-fence-html/master/gh-images/preview.jpg "Screenshot")
 
