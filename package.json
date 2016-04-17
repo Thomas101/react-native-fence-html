@@ -2,7 +2,7 @@
   "name": "react-native-fence-html",
   "author": "Thomas Beverley",
   "license": "BSD-2-Clause",
-  "repository": "",
+  "repository": "https://github.com/Thomas101/react-native-fence-html",
   "description": "React Native component that renders HTML as native views",
   "keywords":[
     "react-native",

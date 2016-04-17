@@ -2,6 +2,8 @@
 
 A react native component that renders HTML as native views. Incredibly useful for rendering using inputted text from wysiwyg editors
 
+![Screenshot](https://raw.githubusercontent.com/Thomas101/react-native-fence-html/master/gh-images/preview.jpg "Screenshot")
+
 ## Add it to your project
 ```
 npm install react-native-fence-html --save
@@ -48,3 +50,20 @@ render() {
 	)
 }
 ```
+
+## Features
+
+| Feature | |
+| ------------- | ------------- |
+| iOS  | ✔️ |
+| Android  | ✔️ |
+| Faster than webview  | ✔️ |
+| Native views  | ✔️ |
+| Inline-styles  | ✔️ |
+| Custom stylesheet  | ✔️ |
+| Tag-soup  | ✔️ |
+| Links  | ✔️ |
+
+## Demo
+
+[Pull the demo repository to give it a try!](https://github.com/Thomas101/react-native-fence-html-demo)
