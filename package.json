@@ -1,0 +1,25 @@
+{
+  "name": "react-native-fence-html",
+  "author": "Thomas Beverley",
+  "license": "BSD-2-Clause",
+  "repository": "",
+  "description": "React Native component that renders HTML as native views",
+  "keywords":[
+    "react-native",
+    "react-component",
+    "react-native-component",
+    "html"
+  ],
+  "version": "1.0.0",
+  "scripts": {},
+  "dependencies": {
+    "buffer": "^4.5.1",
+    "events": "^1.1.0",
+    "html-entities": "^1.2.0",
+    "htmlparser2": "^3.9.0",
+    "react": "^0.14.8",
+    "react-addons-shallow-compare": "^0.14.8",
+    "react-native": "^0.23.1",
+    "stream": "0.0.2"
+  }
+}
