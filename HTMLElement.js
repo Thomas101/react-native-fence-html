@@ -12,14 +12,15 @@ class HTMLElement extends Component {
   // Class
   /* ****************************************************************************/
 
-  propTypes: {
+  static propTypes = {
     tagName: React.PropTypes.string.isRequired,
     groupInfo: React.PropTypes.object,
     parentTagName: React.PropTypes.string,
-    htmlStyles: View.PropTypes.style,
+    htmlStyles: View.propTypes.style,
     inlineStyle: React.PropTypes.string,
     onLinkPress: React.PropTypes.func,
-    onLinkPressArg: React.PropTypes.any
+    onLinkPressArg: React.PropTypes.any,
+    children: React.PropTypes.node
   }
 
   /* ****************************************************************************/
@@ -69,7 +70,7 @@ class HTMLElement extends Component {
         htmlStyles ? htmlStyles[tagName] : undefined,
         inlineStyle ? HTMLStyles.cssStringToRNStyle(inlineStyle) : undefined
       )
-      .filter(s => s !== undefined)
+      .filter((s) => s !== undefined)
 
     if (tagName === 'a') {
       return (

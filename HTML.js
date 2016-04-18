@@ -1,6 +1,5 @@
 import React, {
   Component,
-  Text,
   View
 } from 'react-native'
 import shallowCompare from 'react-addons-shallow-compare'
@@ -13,7 +12,7 @@ class HTML extends Component {
   // Class
   /* ****************************************************************************/
 
-  propTypes: {
+  static propTypes = {
     html: React.PropTypes.string.isRequired,
     htmlStyles: View.propTypes.style,
     onLinkPress: React.PropTypes.func
@@ -48,9 +47,8 @@ class HTML extends Component {
             return undefined
           }
         } else if (node.type === 'tag') {
-
           // Generate grouping info if we are a group-type element
-          let groupInfo = undefined
+          let groupInfo
           if (node.name === 'li') {
             groupInfo = {
               index: htmlElements.reduce((acc, e) => {
@@ -60,8 +58,8 @@ class HTML extends Component {
                   acc.index++
                 }
                 return acc
-              }, {index: 0, found:false}).index,
-              count: htmlElements.filter(e => e.type === 'tag' && e.name === 'li').length
+              }, {index: 0, found: false}).index,
+              count: htmlElements.filter((e) => e.type === 'tag' && e.name === 'li').length
             }
           }
 
@@ -79,13 +77,13 @@ class HTML extends Component {
             </HTMLElement>)
         }
       })
-      .filter(e => e !== undefined)
+      .filter((e) => e !== undefined)
   }
 
   render () {
     let rnNodes
     const parser = new htmlparser2.Parser(
-      new htmlparser2.DomHandler((err, dom) => {
+      new htmlparser2.DomHandler((_err, dom) => {
         rnNodes = this.renderHtmlAsRN(dom)
       })
     )

@@ -18,14 +18,14 @@ const TEXT_TAG_NAMES = [
   'p', 'span', 'li', 'a',
   'em', 'i', 'u', 'b', 'strong', 'big', 'small',
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
-].reduce((acc, n) => {acc.add(n); return acc}, new Set())
+].reduce((acc, n) => { acc.add(n); return acc }, new Set())
 
 class HTMLTextNode extends Component {
   /* ****************************************************************************/
   // Class
   /* ****************************************************************************/
 
-  propTypes: {
+  static propTypes = {
     children: React.PropTypes.string.isRequired
   }
 
@@ -36,14 +36,14 @@ class HTMLTextNode extends Component {
   * @param parentTagName: the name of the parent node
   * @return the new string
   */
-  static removeWhitespaceListHTML(str, nodeIndex, parentTagName) {
+  static removeWhitespaceListHTML (str, nodeIndex, parentTagName) {
     const htmlStr = str
       .replace(RE.MULT_NEWLINE, '\n')
       .replace(RE.MULT_WHITESPACE, ' ')
       .replace(RE.PREFIX_NEWLINE, '')
       .replace(RE.SUFFIX_NEWLINE, '')
-    
-    if (!TEXT_TAG_NAMES.has(parentTagName)  && htmlStr.trim().length === 0) {
+
+    if (!TEXT_TAG_NAMES.has(parentTagName) && htmlStr.trim().length === 0) {
       return ''
     } else {
       if (nodeIndex === 0) {

@@ -10,11 +10,7 @@ const RNTextStylePropTypes = Object.keys(_RNTextStylePropTypes)
 const RNViewStylePropTypes = Object.keys(_RNViewStylePropTypes)
   .reduce((acc, k) => { acc[k] = _RNViewStylePropTypes[k]; return acc }, {})
 
-
-const BlockStylePropTypes = Object.assign({}, RNViewStylePropTypes)
-const TextStylePropTypes = Object.assign({}, RNViewStylePropTypes, RNTextStylePropTypes)
 const AllStylePropTypes = Object.assign({}, RNViewStylePropTypes, RNTextStylePropTypes)
-
 
 class HTMLStyles {
 
@@ -22,7 +18,7 @@ class HTMLStyles {
   // Lifecycle
   /* ****************************************************************************/
 
-  constructor() {
+  constructor () {
     this.defaultStyles = this._generateDefaultStyles()
   }
 
@@ -103,8 +99,8 @@ class HTMLStyles {
 
       },
       hr: {
-        marginTop:BASE_FONT_SIZE / 2,
-        marginBottom:BASE_FONT_SIZE / 2,
+        marginTop: BASE_FONT_SIZE / 2,
+        marginBottom: BASE_FONT_SIZE / 2,
         height: 1,
         backgroundColor: '#CCC'
       }
@@ -123,7 +119,7 @@ class HTMLStyles {
   cssStringToObject (str) {
     return str
       .split(';')
-      .map(prop => prop.split(':'))
+      .map((prop) => prop.split(':'))
       .reduce((acc, prop) => {
         if (prop.length === 2) {
           acc[prop[0].trim()] = prop[1].trim()
@@ -139,7 +135,7 @@ class HTMLStyles {
   */
   cssToRNStyle (css) {
     return Object.keys(css)
-      .map(key => [key, css[key]])
+      .map((key) => [key, css[key]])
       .map(([key, value]) => {
         // Key convert
         return [
@@ -169,7 +165,7 @@ class HTMLStyles {
         }
         return [key, value]
       })
-      .filter(prop => prop !== undefined)
+      .filter((prop) => prop !== undefined)
       .reduce((acc, [key, value]) => {
         acc[key] = value
         return acc
