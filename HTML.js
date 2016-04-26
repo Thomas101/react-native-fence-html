@@ -16,7 +16,7 @@ class HTML extends Component {
 
   static propTypes = {
     html: React.PropTypes.string.isRequired,
-    htmlStyles: View.propTypes.style,
+    htmlStyles: React.PropTypes.object,
     onLinkPress: React.PropTypes.func,
     renderers: React.PropTypes.object.isRequired
   }
