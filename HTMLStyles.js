@@ -20,6 +20,11 @@ class HTMLStyles {
 
   constructor () {
     this.defaultStyles = this._generateDefaultStyles()
+
+    // RN doesn't support css 'display:inline|block' so we have to treat these differently
+    this.blockElements = [
+      'div', 'ol', 'ul'
+    ].reduce((acc, n) => { acc.add(n); return acc }, new Set())
   }
 
   /* ****************************************************************************/

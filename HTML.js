@@ -6,6 +6,8 @@ import shallowCompare from 'react-addons-shallow-compare'
 import htmlparser2 from 'htmlparser2'
 import HTMLElement from './HTMLElement'
 import HTMLTextNode from './HTMLTextNode'
+import HTMLRenderers from './HTMLRenderers'
+import HTMLStyles from './HTMLStyles'
 
 class HTML extends Component {
   /* ****************************************************************************/
@@ -15,7 +17,12 @@ class HTML extends Component {
   static propTypes = {
     html: React.PropTypes.string.isRequired,
     htmlStyles: View.propTypes.style,
-    onLinkPress: React.PropTypes.func
+    onLinkPress: React.PropTypes.func,
+    renderers: React.PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    renderers: HTMLRenderers
   }
 
   /* ****************************************************************************/
@@ -34,9 +41,10 @@ class HTML extends Component {
   * Converts the html elements to RN elements
   * @param htmlElements: the array of html elements
   * @param parentTagName='body': the parent html element if any
+  * @param parentIsText: true if the parent element was a text-y element
   * @return the equivalent RN elements
   */
-  renderHtmlAsRN (htmlElements, parentTagName) {
+  renderHtmlAsRN (htmlElements, parentTagName, parentIsText) {
     return htmlElements
       .map((node, index, list) => {
         if (node.type === 'text') {
@@ -67,13 +75,14 @@ class HTML extends Component {
             <HTMLElement
               key={index}
               htmlStyles={this.props.htmlStyles}
-              inlineStyle={node.attribs.style}
+              htmlAttribs={node.attribs}
               tagName={node.name}
               groupInfo={groupInfo}
               parentTagName={parentTagName}
+              parentIsText={parentIsText}
               onLinkPress={this.props.onLinkPress}
-              onLinkPressArg={node.name === 'a' ? node.attribs.href : undefined}>
-              {this.renderHtmlAsRN(node.children, node.name)}
+              renderers={this.props.renderers}>
+              {this.renderHtmlAsRN(node.children, node.name, !HTMLStyles.blockElements.has(node.name))}
             </HTMLElement>)
         }
       })
@@ -84,7 +93,7 @@ class HTML extends Component {
     let rnNodes
     const parser = new htmlparser2.Parser(
       new htmlparser2.DomHandler((_err, dom) => {
-        rnNodes = this.renderHtmlAsRN(dom)
+        rnNodes = this.renderHtmlAsRN(dom, 'body', false)
       })
     )
     parser.write(this.props.html)

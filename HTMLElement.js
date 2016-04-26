@@ -1,8 +1,7 @@
 import React, {
   Component,
   Text,
-  View,
-  TouchableOpacity
+  View
 } from 'react-native'
 import shallowCompare from 'react-addons-shallow-compare'
 import HTMLStyles from './HTMLStyles'
@@ -14,13 +13,14 @@ class HTMLElement extends Component {
 
   static propTypes = {
     tagName: React.PropTypes.string.isRequired,
+    renderers: React.PropTypes.object.isRequired,
     groupInfo: React.PropTypes.object,
     parentTagName: React.PropTypes.string,
     htmlStyles: View.propTypes.style,
-    inlineStyle: React.PropTypes.string,
+    htmlAttibs: React.PropTypes.object,
     onLinkPress: React.PropTypes.func,
-    onLinkPressArg: React.PropTypes.any,
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    parentIsText: React.PropTypes.bool.isRequired
   }
 
   /* ****************************************************************************/
@@ -61,33 +61,45 @@ class HTMLElement extends Component {
     }
   }
 
+  /**
+  * @return the class for this node
+  */
+  elementClass () {
+    if (HTMLStyles.blockElements.has(this.props.tagName)) {
+      if (this.props.parentIsText) {
+        console.warn([
+          'You are trying to nest a non-text HTML element inside a text element.',
+          'The following nodes can only be rendered within themselves and not within text nodes:'
+        ].concat(Array.from(HTMLStyles.blockElements)).join('\n'))
+        return Text
+      } else {
+        return View
+      }
+    } else {
+      return Text
+    }
+  }
+
   render () {
-    const { htmlStyles, tagName, inlineStyle, ...passProps } = this.props
+    const { htmlStyles, tagName, htmlAttribs, renderers, children, ...passProps } = this.props
 
     const style = []
       .concat(
         HTMLStyles.defaultStyles[tagName],
         htmlStyles ? htmlStyles[tagName] : undefined,
-        inlineStyle ? HTMLStyles.cssStringToRNStyle(inlineStyle) : undefined
+        htmlAttribs.style ? HTMLStyles.cssStringToRNStyle(htmlAttribs.style) : undefined
       )
       .filter((s) => s !== undefined)
 
-    if (tagName === 'a') {
-      return (
-        <TouchableOpacity onPress={this.handleLinkPressed}>
-          <Text {...passProps} style={style}>
-            {this.prefixNode()}
-            {this.props.children}
-          </Text>
-        </TouchableOpacity>
-      )
+    if (renderers[tagName]) {
+      return renderers[tagName](htmlAttribs, style, children, passProps)
     } else {
-      const RNNode = tagName === 'div' ? View : Text
+      const RNElem = this.elementClass()
       return (
-        <RNNode {...passProps} style={style}>
+        <RNElem {...passProps} style={style}>
           {this.prefixNode()}
           {this.props.children}
-        </RNNode>
+        </RNElem>
       )
     }
   }
