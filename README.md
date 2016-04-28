@@ -33,12 +33,17 @@ render() {
 
 	const styles = {
 		h1: { backgroundColor: '#FF0000' },
-		h2: { fontFamily: 'Arial' }
+		h2: { fontFamily: 'Arial' },
+    img: { resizeMode: 'cover' }
 	}
-	
+
 	const renderers = {
-	 	img: (htmlAttribs, style, children, passProps) => {
-	 		return (<Image source={{uri: htmlAttribs.src, width: width, height: height}} style={style} {...passProps} />)
+	 	img: (htmlAttribs, children, passProps) => {
+	 		return (
+        <Image
+          source={{uri: htmlAttribs.src, width: 100, height: 100}}
+          style={passProps.htmlStyles.img}
+          {...passProps} />)
 	 	}
 	}
 
@@ -58,7 +63,7 @@ render() {
 			// get the href passed back. Handy if you want to send
 			// someone somewhere :-)
 			onLinkPress={(evt, href) => console.log(href)} />
-			
+
 			// Renderers to use for rendering specific HTML elements.
 			// Default renderers are pre-provided in HTMLRenderers.js.
 			renderers={renderers}

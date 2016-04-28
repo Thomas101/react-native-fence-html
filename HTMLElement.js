@@ -83,18 +83,28 @@ class HTMLElement extends Component {
   render () {
     const { htmlStyles, tagName, htmlAttribs, renderers, children, ...passProps } = this.props
 
-    const style = []
-      .concat(
-        HTMLStyles.defaultStyles[tagName],
-        htmlStyles ? htmlStyles[tagName] : undefined,
-        htmlAttribs.style ? HTMLStyles.cssStringToRNStyle(htmlAttribs.style) : undefined
-      )
-      .filter((s) => s !== undefined)
-
     if (renderers[tagName]) {
-      return renderers[tagName](htmlAttribs, style, children, passProps)
+      const copyProps = [
+        'htmlStyles',
+        'groupInfo',
+        'parentTagName',
+        'onLinkPress',
+        'parentIsText'
+      ].reduce((acc, k) => {
+        acc[k] = this.props[k]
+        return acc
+      }, {})
+      return renderers[tagName](htmlAttribs, children, copyProps)
     } else {
       const RNElem = this.elementClass()
+      const styleset = RNElem === Text ? HTMLStyles.STYLESETS.TEXT : HTMLStyles.STYLESETS.VIEW
+      const style = []
+        .concat(
+          HTMLStyles.defaultStyles[tagName],
+          htmlStyles ? htmlStyles[tagName] : undefined,
+          htmlAttribs.style ? HTMLStyles.cssStringToRNStyle(htmlAttribs.style, styleset) : undefined
+        ).filter((s) => s !== undefined)
+
       return (
         <RNElem {...passProps} style={style}>
           {this.prefixNode()}

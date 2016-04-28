@@ -19,6 +19,9 @@ const TEXT_TAG_NAMES = [
   'em', 'i', 'u', 'b', 'strong', 'big', 'small',
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
 ].reduce((acc, n) => { acc.add(n); return acc }, new Set())
+const PRE_TAG_NAMES = [
+  'pre', 'code'
+].reduce((acc, n) => { acc.add(n); return acc }, new Set())
 
 class HTMLTextNode extends Component {
   /* ****************************************************************************/
@@ -37,19 +40,23 @@ class HTMLTextNode extends Component {
   * @return the new string
   */
   static removeWhitespaceListHTML (str, nodeIndex, parentTagName) {
-    const htmlStr = str
-      .replace(RE.MULT_NEWLINE, '\n')
-      .replace(RE.MULT_WHITESPACE, ' ')
-      .replace(RE.PREFIX_NEWLINE, '')
-      .replace(RE.SUFFIX_NEWLINE, '')
-
-    if (!TEXT_TAG_NAMES.has(parentTagName) && htmlStr.trim().length === 0) {
-      return ''
+    if (PRE_TAG_NAMES.has(parentTagName)) {
+      return str
     } else {
-      if (nodeIndex === 0) {
-        return htmlStr.replace(RE.PREFIX_WHITESPACE, '')
+      const htmlStr = str
+        .replace(RE.MULT_NEWLINE, '\n')
+        .replace(RE.MULT_WHITESPACE, ' ')
+        .replace(RE.PREFIX_NEWLINE, '')
+        .replace(RE.SUFFIX_NEWLINE, '')
+
+      if (!TEXT_TAG_NAMES.has(parentTagName) && htmlStr.trim().length === 0) {
+        return ''
       } else {
-        return htmlStr
+        if (nodeIndex === 0) {
+          return htmlStr.replace(RE.PREFIX_WHITESPACE, '')
+        } else {
+          return htmlStr
+        }
       }
     }
   }

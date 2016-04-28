@@ -5,12 +5,24 @@ import ReactPropTypeLocations from 'react/lib/ReactPropTypeLocations'
 // We have to do some munging here as the objects are wrapped
 import _RNTextStylePropTypes from 'react-native/Libraries/Text/TextStylePropTypes'
 import _RNViewStylePropTypes from 'react-native/Libraries/Components/View/ViewStylePropTypes'
+import _RNImageStylePropTypes from 'react-native/Libraries/Image/ImageStylePropTypes'
 const RNTextStylePropTypes = Object.keys(_RNTextStylePropTypes)
   .reduce((acc, k) => { acc[k] = _RNTextStylePropTypes[k]; return acc }, {})
 const RNViewStylePropTypes = Object.keys(_RNViewStylePropTypes)
   .reduce((acc, k) => { acc[k] = _RNViewStylePropTypes[k]; return acc }, {})
+const RNImageStylePropTypes = Object.keys(_RNImageStylePropTypes)
+  .reduce((acc, k) => { acc[k] = _RNImageStylePropTypes[k]; return acc }, {})
 
-const AllStylePropTypes = Object.assign({}, RNViewStylePropTypes, RNTextStylePropTypes)
+const STYLESETS = Object.freeze({
+  VIEW: 'view',
+  TEXT: 'text',
+  IMAGE: 'image'
+})
+
+const stylePropTypes = {}
+stylePropTypes[STYLESETS.VIEW] = Object.assign({}, RNViewStylePropTypes)
+stylePropTypes[STYLESETS.TEXT] = Object.assign({}, RNViewStylePropTypes, RNTextStylePropTypes)
+stylePropTypes[STYLESETS.IMAGE] = Object.assign({}, RNViewStylePropTypes, RNImageStylePropTypes)
 
 class HTMLStyles {
 
@@ -26,6 +38,12 @@ class HTMLStyles {
       'div', 'ol', 'ul'
     ].reduce((acc, n) => { acc.add(n); return acc }, new Set())
   }
+
+  /* ****************************************************************************/
+  // Properties
+  /* ****************************************************************************/
+
+  get STYLESETS () { return STYLESETS }
 
   /* ****************************************************************************/
   // Generating
@@ -58,9 +76,7 @@ class HTMLStyles {
     const BASE_FONT_SIZE = 14
     return StyleSheet.create({
       // Block level elements
-      div: {
-
-      },
+      div: { },
 
       // Typography
       p: {
@@ -89,12 +105,10 @@ class HTMLStyles {
 
       // Typography : Lists
       ul: {
-        fontSize: BASE_FONT_SIZE,
         paddingLeft: 40,
         marginBottom: BASE_FONT_SIZE
       },
       ol: {
-        fontSize: BASE_FONT_SIZE,
         paddingLeft: 40,
         marginBottom: BASE_FONT_SIZE
       },
@@ -136,9 +150,11 @@ class HTMLStyles {
   /**
   * Converts a html style to its equavalent react native style
   * @param: css: object of key value css strings
+  * @param styleset: the styleset to convert the styles against
   * @return an object of react native styles
   */
-  cssToRNStyle (css) {
+  cssToRNStyle (css, styleset) {
+    const styleProps = stylePropTypes[styleset]
     return Object.keys(css)
       .map((key) => [key, css[key]])
       .map(([key, value]) => {
@@ -151,17 +167,17 @@ class HTMLStyles {
           value]
       })
       .map(([key, value]) => {
-        if (!AllStylePropTypes[key]) { return undefined }
+        if (!styleProps[key]) { return undefined }
 
         const testStyle = {}
         testStyle[key] = value
-        if (AllStylePropTypes[key](testStyle, key, '', ReactPropTypeLocations.prop)) {
+        if (styleProps[key](testStyle, key, '', ReactPropTypeLocations.prop)) {
           // See if we can convert a 20px to a 20 automagically
-          if (AllStylePropTypes[key] === React.PropTypes.number) {
+          if (styleProps[key] === React.PropTypes.number) {
             const numericValue = parseFloat(value.replace('px', ''))
             if (!isNaN(numericValue)) {
               testStyle[key] = numericValue
-              if (!AllStylePropTypes[key](testStyle, key, '', ReactPropTypeLocations.prop)) {
+              if (!styleProps[key](testStyle, key, '', ReactPropTypeLocations.prop)) {
                 return [key, numericValue]
               }
             }
@@ -179,10 +195,11 @@ class HTMLStyles {
 
   /**
   * @param str: the css style string
+  * @param styleset=STYLESETS.TEXT: the styleset to convert the styles against
   * @return a react native style object
   */
-  cssStringToRNStyle (str) {
-    return this.cssToRNStyle(this.cssStringToObject(str))
+  cssStringToRNStyle (str, styleset = STYLESETS.TEXT) {
+    return this.cssToRNStyle(this.cssStringToObject(str), styleset)
   }
 }
 
