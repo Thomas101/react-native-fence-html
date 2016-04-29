@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/v/react-native-fence-html.svg?maxAge=2592000)](https://www.npmjs.com/package/react-native-fence-html)
 [![npm](https://img.shields.io/npm/l/react-native-fence-html.svg?maxAge=2592000)](https://github.com/Thomas101/react-native-fence-html/blob/master/LICENSE)
 
-A react native component that renders HTML as native views. Incredibly useful for rendering user inputted text from wysiwyg editors
+A react native component that renders HTML as native views. This library is useful for rendering html snippets such as those that you get from wysiwyg text editors.
 
 ![Screenshot](https://raw.githubusercontent.com/Thomas101/react-native-fence-html/master/gh-images/preview.jpg "Screenshot")
 
@@ -33,7 +33,18 @@ render() {
 
 	const styles = {
 		h1: { backgroundColor: '#FF0000' },
-		h2: { fontFamily: 'Arial' }
+		h2: { fontFamily: 'Arial' },
+    img: { resizeMode: 'cover' }
+	}
+
+	const renderers = {
+	 	img: (htmlAttribs, children, passProps) => {
+	 		return (
+        <Image
+          source={{uri: htmlAttribs.src, width: 100, height: 100}}
+          style={passProps.htmlStyles.img}
+          {...passProps} />)
+	 	}
 	}
 
 	return (
@@ -52,6 +63,10 @@ render() {
 			// get the href passed back. Handy if you want to send
 			// someone somewhere :-)
 			onLinkPress={(evt, href) => console.log(href)} />
+
+			// Renderers to use for rendering specific HTML elements.
+			// Default renderers are pre-provided in HTMLRenderers.js.
+			renderers={renderers}
 	)
 }
 ```
@@ -63,11 +78,14 @@ render() {
 | iOS  | ✔️ |
 | Android  | ✔️ |
 | Faster than webview  | ✔️ |
-| Native views  | ✔️ |
+| All Native views  | ✔️ |
 | Inline-styles  | ✔️ |
 | Custom stylesheet  | ✔️ |
 | Tag-soup  | ✔️ |
 | Links  | ✔️ |
+| Images  | ✔️ |
+| Custom Renderers  | ✔️ |
+
 
 ## Demo
 
