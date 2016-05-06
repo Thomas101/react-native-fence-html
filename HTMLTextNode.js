@@ -1,7 +1,5 @@
-import React, {
-  Component,
-  Text
-} from 'react-native'
+import React from 'react'
+import { Text } from 'react-native'
 import shallowCompare from 'react-addons-shallow-compare'
 import { AllHtmlEntities } from 'html-entities'
 
@@ -23,7 +21,7 @@ const PRE_TAG_NAMES = [
   'pre', 'code'
 ].reduce((acc, n) => { acc.add(n); return acc }, new Set())
 
-class HTMLTextNode extends Component {
+class HTMLTextNode extends React.Component {
   /* ****************************************************************************/
   // Class
   /* ****************************************************************************/

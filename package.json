@@ -10,7 +10,7 @@
     "react-native-component",
     "html"
   ],
-  "version": "1.0.4",
+  "version": "1.0.5",
   "scripts": {
     "test": "standard"
   },
@@ -19,10 +19,12 @@
     "events": "^1.1.0",
     "html-entities": "^1.2.0",
     "htmlparser2": "^3.9.0",
-    "react": "^0.14.8",
     "react-addons-shallow-compare": "^0.14.8",
-    "react-native": "*",
     "stream": "0.0.2"
+  },
+  "peerDependencies": {
+    "react": ">=0.14.8",
+    "react-native": ">=0.24.0"
   },
   "standard": {
     "parser": "babel-eslint"

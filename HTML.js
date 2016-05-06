@@ -1,7 +1,5 @@
-import React, {
-  Component,
-  View
-} from 'react-native'
+import React from 'react'
+import { View } from 'react-native'
 import shallowCompare from 'react-addons-shallow-compare'
 import htmlparser2 from 'htmlparser2'
 import HTMLElement from './HTMLElement'
@@ -9,7 +7,7 @@ import HTMLTextNode from './HTMLTextNode'
 import HTMLRenderers from './HTMLRenderers'
 import HTMLStyles from './HTMLStyles'
 
-class HTML extends Component {
+class HTML extends React.Component {
   /* ****************************************************************************/
   // Class
   /* ****************************************************************************/
