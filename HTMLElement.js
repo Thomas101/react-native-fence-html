@@ -13,7 +13,7 @@ class HTMLElement extends React.Component {
     renderers: React.PropTypes.object.isRequired,
     groupInfo: React.PropTypes.object,
     parentTagName: React.PropTypes.string,
-    htmlStyles: View.propTypes.style,
+    htmlStyles: React.PropTypes.object,
     htmlAttibs: React.PropTypes.object,
     onLinkPress: React.PropTypes.func,
     children: React.PropTypes.node,
