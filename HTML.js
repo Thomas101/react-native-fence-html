@@ -23,6 +23,14 @@ class HTML extends React.Component {
     renderers: HTMLRenderers
   }
 
+  constructor (props) {
+      super(props);
+      this.renderers = {
+        ...HTMLRenderers,
+        ...(this.props.renderers || {})
+      };
+  }
+
   /* ****************************************************************************/
   // Data Lifecycle
   /* ****************************************************************************/
@@ -79,7 +87,7 @@ class HTML extends React.Component {
               parentTagName={parentTagName}
               parentIsText={parentIsText}
               onLinkPress={this.props.onLinkPress}
-              renderers={this.props.renderers}>
+              renderers={this.renderers}>
               {this.renderHtmlAsRN(node.children, node.name, !HTMLStyles.blockElements.has(node.name))}
             </HTMLElement>)
         }
