@@ -18,11 +18,10 @@ const STYLESETS = Object.freeze({
   IMAGE: 'image'
 })
 
-const stylePropTypes = {
-  [STYLESETS.VIEW]: {...RNTextStylePropTypes},
-  [STYLESETS.TEXT]: {...RNViewStylePropTypes, ...RNTextStylePropTypes},
-  [STYLESETS.IMAGE]: {...RNViewStylePropTypes, ...RNImageStylePropTypes},
-}
+const stylePropTypes = {}
+stylePropTypes[STYLESETS.VIEW] = Object.assign({}, RNViewStylePropTypes)
+stylePropTypes[STYLESETS.TEXT] = Object.assign({}, RNViewStylePropTypes, RNTextStylePropTypes)
+stylePropTypes[STYLESETS.IMAGE] = Object.assign({}, RNViewStylePropTypes, RNImageStylePropTypes)
 
 class HTMLStyles {
 
