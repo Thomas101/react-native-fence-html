@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
-import ReactPropTypeLocations from 'react/lib/ReactPropTypeLocations'
 
 // We have to do some munging here as the objects are wrapped
 import _RNTextStylePropTypes from 'react-native/Libraries/Text/TextStylePropTypes'
