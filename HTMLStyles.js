@@ -1,9 +1,16 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
 
-import RNTextStylePropTypes from 'react-native/Libraries/Text/TextStylePropTypes'
-import RNViewStylePropTypes from 'react-native/Libraries/Components/View/ViewStylePropTypes'
-import RNImageStylePropTypes from 'react-native/Libraries/Image/ImageStylePropTypes'
+// We have to do some munging here as the objects are wrapped
+import _RNTextStylePropTypes from 'react-native/Libraries/Text/TextStylePropTypes'
+import _RNViewStylePropTypes from 'react-native/Libraries/Components/View/ViewStylePropTypes'
+import _RNImageStylePropTypes from 'react-native/Libraries/Image/ImageStylePropTypes'
+const RNTextStylePropTypes = Object.keys(_RNTextStylePropTypes)
+  .reduce((acc, k) => { acc[k] = _RNTextStylePropTypes[k]; return acc }, {})
+const RNViewStylePropTypes = Object.keys(_RNViewStylePropTypes)
+  .reduce((acc, k) => { acc[k] = _RNViewStylePropTypes[k]; return acc }, {})
+const RNImageStylePropTypes = Object.keys(_RNImageStylePropTypes)
+  .reduce((acc, k) => { acc[k] = _RNImageStylePropTypes[k]; return acc }, {})
 
 const STYLESETS = Object.freeze({
   VIEW: 'view',
@@ -11,11 +18,10 @@ const STYLESETS = Object.freeze({
   IMAGE: 'image'
 })
 
-const stylePropTypes = {
-  [STYLESETS.VIEW]: {...RNTextStylePropTypes},
-  [STYLESETS.TEXT]: {...RNViewStylePropTypes, ...RNTextStylePropTypes},
-  [STYLESETS.IMAGE]: {...RNViewStylePropTypes, ...RNImageStylePropTypes},
-}
+const stylePropTypes = {}
+stylePropTypes[STYLESETS.VIEW] = Object.assign({}, RNViewStylePropTypes)
+stylePropTypes[STYLESETS.TEXT] = Object.assign({}, RNViewStylePropTypes, RNTextStylePropTypes)
+stylePropTypes[STYLESETS.IMAGE] = Object.assign({}, RNViewStylePropTypes, RNImageStylePropTypes)
 
 class HTMLStyles {
 
@@ -43,12 +49,12 @@ class HTMLStyles {
   /* ****************************************************************************/
 
   /**
-  * Small utility for generating heading styles
-  * @param baseFontSize: the basic font size
-  * @param fontMultiplier: the amount to multiply the font size by
-  * @param marginMultiplier: the amount to multiply the margin by
-  * @return a style def for a heading
-  */
+   * Small utility for generating heading styles
+   * @param baseFontSize: the basic font size
+   * @param fontMultiplier: the amount to multiply the font size by
+   * @param marginMultiplier: the amount to multiply the margin by
+   * @return a style def for a heading
+   */
   _generateHeadingStyle (baseFontSize, fontMultiplier, marginMultiplier) {
     return {
       fontSize: baseFontSize * fontMultiplier,
@@ -59,9 +65,9 @@ class HTMLStyles {
   }
 
   /**
-  * Generates the default styles
-  * @return the stylesheet
-  */
+   * Generates the default styles
+   * @return the stylesheet
+   */
   _generateDefaultStyles () {
     // These styles are mainly adapted from
     // https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css
@@ -124,10 +130,10 @@ class HTMLStyles {
   /* ****************************************************************************/
 
   /**
-  * Converts a html style string to an object
-  * @param str: the style string
-  * @return the style as an obect
-  */
+   * Converts a html style string to an object
+   * @param str: the style string
+   * @return the style as an obect
+   */
   cssStringToObject (str) {
     return str
       .split(';')
@@ -141,11 +147,11 @@ class HTMLStyles {
   }
 
   /**
-  * Converts a html style to its equavalent react native style
-  * @param: css: object of key value css strings
-  * @param styleset: the styleset to convert the styles against
-  * @return an object of react native styles
-  */
+   * Converts a html style to its equavalent react native style
+   * @param: css: object of key value css strings
+   * @param styleset: the styleset to convert the styles against
+   * @return an object of react native styles
+   */
   cssToRNStyle (css, styleset) {
     const styleProps = stylePropTypes[styleset]
     return Object.keys(css)
@@ -179,10 +185,10 @@ class HTMLStyles {
   }
 
   /**
-  * @param str: the css style string
-  * @param styleset=STYLESETS.TEXT: the styleset to convert the styles against
-  * @return a react native style object
-  */
+   * @param str: the css style string
+   * @param styleset=STYLESETS.TEXT: the styleset to convert the styles against
+   * @return a react native style object
+   */
   cssStringToRNStyle (str, styleset = STYLESETS.TEXT) {
     return this.cssToRNStyle(this.cssStringToObject(str), styleset)
   }
