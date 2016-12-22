@@ -1,9 +1,16 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
 
-import RNTextStylePropTypes from 'react-native/Libraries/Text/TextStylePropTypes'
-import RNViewStylePropTypes from 'react-native/Libraries/Components/View/ViewStylePropTypes'
-import RNImageStylePropTypes from 'react-native/Libraries/Image/ImageStylePropTypes'
+// We have to do some munging here as the objects are wrapped
+import _RNTextStylePropTypes from 'react-native/Libraries/Text/TextStylePropTypes'
+import _RNViewStylePropTypes from 'react-native/Libraries/Components/View/ViewStylePropTypes'
+import _RNImageStylePropTypes from 'react-native/Libraries/Image/ImageStylePropTypes'
+const RNTextStylePropTypes = Object.keys(_RNTextStylePropTypes)
+  .reduce((acc, k) => { acc[k] = _RNTextStylePropTypes[k]; return acc }, {})
+const RNViewStylePropTypes = Object.keys(_RNViewStylePropTypes)
+  .reduce((acc, k) => { acc[k] = _RNViewStylePropTypes[k]; return acc }, {})
+const RNImageStylePropTypes = Object.keys(_RNImageStylePropTypes)
+  .reduce((acc, k) => { acc[k] = _RNImageStylePropTypes[k]; return acc }, {})
 
 const STYLESETS = Object.freeze({
   VIEW: 'view',
