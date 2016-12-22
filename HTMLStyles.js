@@ -1,17 +1,9 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
-import ReactPropTypeLocations from 'react/lib/ReactPropTypeLocations'
 
-// We have to do some munging here as the objects are wrapped
-import _RNTextStylePropTypes from 'react-native/Libraries/Text/TextStylePropTypes'
-import _RNViewStylePropTypes from 'react-native/Libraries/Components/View/ViewStylePropTypes'
-import _RNImageStylePropTypes from 'react-native/Libraries/Image/ImageStylePropTypes'
-const RNTextStylePropTypes = Object.keys(_RNTextStylePropTypes)
-  .reduce((acc, k) => { acc[k] = _RNTextStylePropTypes[k]; return acc }, {})
-const RNViewStylePropTypes = Object.keys(_RNViewStylePropTypes)
-  .reduce((acc, k) => { acc[k] = _RNViewStylePropTypes[k]; return acc }, {})
-const RNImageStylePropTypes = Object.keys(_RNImageStylePropTypes)
-  .reduce((acc, k) => { acc[k] = _RNImageStylePropTypes[k]; return acc }, {})
+import RNTextStylePropTypes from 'react-native/Libraries/Text/TextStylePropTypes'
+import RNViewStylePropTypes from 'react-native/Libraries/Components/View/ViewStylePropTypes'
+import RNImageStylePropTypes from 'react-native/Libraries/Image/ImageStylePropTypes'
 
 const STYLESETS = Object.freeze({
   VIEW: 'view',
@@ -19,10 +11,11 @@ const STYLESETS = Object.freeze({
   IMAGE: 'image'
 })
 
-const stylePropTypes = {}
-stylePropTypes[STYLESETS.VIEW] = Object.assign({}, RNViewStylePropTypes)
-stylePropTypes[STYLESETS.TEXT] = Object.assign({}, RNViewStylePropTypes, RNTextStylePropTypes)
-stylePropTypes[STYLESETS.IMAGE] = Object.assign({}, RNViewStylePropTypes, RNImageStylePropTypes)
+const stylePropTypes = {
+  [STYLESETS.VIEW]: {...RNTextStylePropTypes},
+  [STYLESETS.TEXT]: {...RNViewStylePropTypes, ...RNTextStylePropTypes},
+  [STYLESETS.IMAGE]: {...RNViewStylePropTypes, ...RNImageStylePropTypes},
+}
 
 class HTMLStyles {
 
@@ -169,21 +162,13 @@ class HTMLStyles {
       .map(([key, value]) => {
         if (!styleProps[key]) { return undefined }
 
-        const testStyle = {}
-        testStyle[key] = value
-        if (styleProps[key](testStyle, key, '', ReactPropTypeLocations.prop)) {
-          // See if we can convert a 20px to a 20 automagically
-          if (styleProps[key] === React.PropTypes.number) {
-            const numericValue = parseFloat(value.replace('px', ''))
-            if (!isNaN(numericValue)) {
-              testStyle[key] = numericValue
-              if (!styleProps[key](testStyle, key, '', ReactPropTypeLocations.prop)) {
-                return [key, numericValue]
-              }
-            }
-          }
+        // See if we can convert a 20px to a 20 automagically
+        if (styleProps[key] === React.PropTypes.number) {
+          const numericValue = parseFloat(value.replace('px', ''))
+          if (!isNaN(numericValue)) { return [key, numericValue] }
           return undefined
         }
+
         return [key, value]
       })
       .filter((prop) => prop !== undefined)
