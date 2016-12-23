@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
-import ReactPropTypeLocations from 'react/lib/ReactPropTypeLocations'
 
 // We have to do some munging here as the objects are wrapped
 import _RNTextStylePropTypes from 'react-native/Libraries/Text/TextStylePropTypes'
@@ -169,21 +168,13 @@ class HTMLStyles {
       .map(([key, value]) => {
         if (!styleProps[key]) { return undefined }
 
-        const testStyle = {}
-        testStyle[key] = value
-        if (styleProps[key](testStyle, key, '', ReactPropTypeLocations.prop)) {
-          // See if we can convert a 20px to a 20 automagically
-          if (styleProps[key] === React.PropTypes.number) {
-            const numericValue = parseFloat(value.replace('px', ''))
-            if (!isNaN(numericValue)) {
-              testStyle[key] = numericValue
-              if (!styleProps[key](testStyle, key, '', ReactPropTypeLocations.prop)) {
-                return [key, numericValue]
-              }
-            }
-          }
+        // See if we can convert a 20px to a 20 automagically
+        if (styleProps[key] === React.PropTypes.number) {
+          const numericValue = parseFloat(value.replace('px', ''))
+          if (!isNaN(numericValue)) { return [key, numericValue] }
           return undefined
         }
+
         return [key, value]
       })
       .filter((prop) => prop !== undefined)

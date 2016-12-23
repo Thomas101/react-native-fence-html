@@ -10,12 +10,12 @@
     "react-native-component",
     "html"
   ],
-  "version": "1.0.6",
+  "version": "1.0.7",
   "scripts": {
     "test": "standard"
   },
   "dependencies": {
-    "buffer": "^4.5.1",
+    "buffer": "^5.0.0",
     "events": "^1.1.0",
     "html-entities": "^1.2.0",
     "htmlparser2": "^3.9.0",
