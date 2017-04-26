@@ -97,7 +97,7 @@ class HTML extends React.Component {
     parser.write(this.props.html)
     parser.done()
 
-    return (<View>{rnNodes}</View>)
+    return (<View style={this.props.style}>{rnNodes}</View>)
   }
 }
 
