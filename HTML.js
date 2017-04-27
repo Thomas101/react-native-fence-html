@@ -48,7 +48,7 @@ class HTML extends React.Component {
         if (node.type === 'text') {
           const str = HTMLTextNode.removeWhitespaceListHTML(node.data, index, parentTagName)
           if (str.length) {
-            return (<HTMLTextNode key={index}>{str}</HTMLTextNode>)
+            return (<HTMLTextNode style={this.props.defaultTextNodeStyle} key={index}>{str}</HTMLTextNode>)
           } else {
             return undefined
           }
@@ -97,7 +97,7 @@ class HTML extends React.Component {
     parser.write(this.props.html)
     parser.done()
 
-    return (<View>{rnNodes}</View>)
+    return (<View style={this.props.style}>{rnNodes}</View>)
   }
 }
 
