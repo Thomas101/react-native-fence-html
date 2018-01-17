@@ -22,13 +22,13 @@ module.exports = {
         <Text
           {...passProps}
           style={style}
-          onPress={(evt) => { passProps.onLinkPress ? passProps.onLinkPress(evt, htmlAttribs.href) : undefined }}>
+          onPress={(evt) => passProps.onLinkPress ? passProps.onLinkPress(evt, htmlAttribs.href) : undefined}>
           {children}
         </Text>
       )
     } else {
       return (
-        <TouchableOpacity onPress={(evt) => { passProps.onLinkPress ? passProps.onLinkPress(evt, htmlAttribs.href) : undefined }}>
+        <TouchableOpacity onPress={(evt) => passProps.onLinkPress ? passProps.onLinkPress(evt, htmlAttribs.href) : undefined}>
           <Text {...passProps} style={style}>
             {children}
           </Text>

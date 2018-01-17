@@ -25,11 +25,9 @@ stylePropTypes[STYLESETS.TEXT] = Object.assign({}, RNViewStylePropTypes, RNTextS
 stylePropTypes[STYLESETS.IMAGE] = Object.assign({}, RNViewStylePropTypes, RNImageStylePropTypes)
 
 class HTMLStyles {
-
   /* ****************************************************************************/
   // Lifecycle
   /* ****************************************************************************/
-
   constructor () {
     this.defaultStyles = this._generateDefaultStyles()
 

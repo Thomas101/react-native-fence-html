@@ -51,7 +51,7 @@ class HTMLElement extends React.Component {
       if (this.props.parentTagName === 'ol') {
         return <Text>{`\n${this.props.groupInfo.index + 1}). `}</Text>
       } else {
-        return <Text>{"\n• "}</Text>
+        return <Text>{'\n• '}</Text>
       }
     } else {
       return undefined
