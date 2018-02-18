@@ -24,7 +24,8 @@
   "peerDependencies": {
     "react": ">=0.14.8",
     "react-native": ">=0.24.0",
-    "react-addons-shallow-compare": ">=0.14.8"
+    "react-addons-shallow-compare": ">=0.14.8",
+    "prop-types": "^15.6.0"
   },
   "standard": {
     "parser": "babel-eslint"
