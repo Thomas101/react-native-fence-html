@@ -6,6 +6,7 @@ import HTMLElement from './HTMLElement'
 import HTMLTextNode from './HTMLTextNode'
 import HTMLRenderers from './HTMLRenderers'
 import HTMLStyles from './HTMLStyles'
+import PropTypes from 'prop-types'
 
 class HTML extends React.Component {
   /* ****************************************************************************/
@@ -13,10 +14,10 @@ class HTML extends React.Component {
   /* ****************************************************************************/
 
   static propTypes = {
-    html: React.PropTypes.string.isRequired,
-    htmlStyles: React.PropTypes.object,
-    onLinkPress: React.PropTypes.func,
-    renderers: React.PropTypes.object.isRequired
+    html: PropTypes.string.isRequired,
+    htmlStyles: PropTypes.object,
+    onLinkPress: PropTypes.func,
+    renderers: PropTypes.object.isRequired
   }
 
   static defaultProps = {
