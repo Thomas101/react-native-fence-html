@@ -19,18 +19,20 @@
     "events": "^1.1.0",
     "html-entities": "^1.2.0",
     "htmlparser2": "^3.9.0",
+    "prop-types": "^15.6.2",
+    "react-addons-shallow-compare": "15.6.2",
     "stream": "0.0.2"
   },
   "peerDependencies": {
     "react": ">=0.14.8",
-    "react-native": ">=0.24.0",
-    "react-addons-shallow-compare": ">=0.14.8"
+    "react-native": ">=0.24.0"
   },
   "standard": {
     "parser": "babel-eslint"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.2",
+    "react-dom": "~15.4.1",
     "standard": "^6.0.8"
   }
 }
